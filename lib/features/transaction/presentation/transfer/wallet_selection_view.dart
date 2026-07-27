@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:klip/core/routes/app_router.dart';
 import 'package:klip/gen/assets.gen.dart';
 
 class WalletSelectionView extends StatelessWidget {
@@ -41,7 +43,13 @@ class WalletSelectionView extends StatelessWidget {
           children: [
             Text("Choose  how to transfer crypto", style: b16),
             const SizedBox(height: 51),
+
+            // ~ Savings Wallet option
+            // TODO(4.4): wire to savings-wallet transfer flow (Group 4)
             GestureDetector(
+              onTap: () {
+                context.go(AppRoutes.transactionSuccessful);
+              },
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 width: double.infinity,
@@ -61,7 +69,12 @@ class WalletSelectionView extends StatelessWidget {
               ),
             ),
 
+            // ~ External Wallet option
+            // TODO(4.1): replace with destination address input screen (Group 4)
             GestureDetector(
+              onTap: () {
+                context.go(AppRoutes.transactionSuccessful);
+              },
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 width: double.infinity,
@@ -70,7 +83,6 @@ class WalletSelectionView extends StatelessWidget {
                   color: Color(0xFF114522),
                   borderRadius: BorderRadius.circular(4),
                 ),
-
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,

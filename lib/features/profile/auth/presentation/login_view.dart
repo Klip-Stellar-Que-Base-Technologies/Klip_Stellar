@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:klip/core/routes/app_router.dart';
+import 'package:klip/features/onboarding/app/onboarding_root_view_provider.dart';
 import 'package:klip/shared/style/text_style.dart';
 import 'package:klip/shared/widget/liquid_glass_texture.dart';
 
@@ -16,6 +17,12 @@ class LoginView extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final _username = useTextEditingController();
     final _password = useTextEditingController();
+
+    void _goToSignUp() {
+      ref
+          .read(onboardingRootViewProvider.notifier)
+          .changeView(OnboardingRootViewPage.page3);
+    }
 
     return Scaffold(
       body: Padding(
@@ -54,6 +61,7 @@ class LoginView extends HookConsumerWidget {
                     // ~ Password TextField
                     TextField(
                       controller: _password,
+                      obscureText: true,
                       decoration: InputDecoration(
                         hint: Text("Password"),
                         border: OutlineInputBorder(
@@ -63,7 +71,7 @@ class LoginView extends HookConsumerWidget {
                     ),
                     SizedBox(height: 12.h),
 
-                    // ~ Login Button
+                    // ~ Login Button — navigates to home
                     LiquidGlassButton(
                       width: double.infinity,
                       onTap: () {
@@ -81,7 +89,7 @@ class LoginView extends HookConsumerWidget {
                             foregroundColor: Colors.white,
                             padding: EdgeInsets.zero,
                           ),
-                          onPressed: () {},
+                          onPressed: _goToSignUp,
                           child: Text("Sign Up", style: AppTextStyle.sb12),
                         ),
                       ],

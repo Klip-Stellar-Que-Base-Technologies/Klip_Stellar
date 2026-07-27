@@ -103,7 +103,8 @@ class SavingsView extends ConsumerWidget {
             ),
 
             const SizedBox(height: 50),
-            _transctionBlock(true),
+            // TODO(5.2): replace with real data from transaction history provider
+            _transctionBlock(false),
           ],
         ),
       ),
@@ -129,7 +130,7 @@ class SavingsView extends ConsumerWidget {
   }
 
   Widget _transctionBlock(bool withTransaction) {
-    return withTransaction
+    return !withTransaction
         ? Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,

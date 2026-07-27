@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:klip/app.dart';
 import 'package:klip/core/routes/app_router.dart';
 import 'package:klip/gen/colors.gen.dart';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {
