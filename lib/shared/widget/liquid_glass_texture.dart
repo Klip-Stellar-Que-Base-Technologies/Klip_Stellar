@@ -47,19 +47,19 @@ class _LiquidGlassButtonState extends State<LiquidGlassButton> {
           boxShadow: _isPressed
               ? [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
+                    color: Colors.black.withValues(alpha: 0.2),
                     blurRadius: 8,
                     offset: const Offset(0, 2),
                   ),
                 ]
               : [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: Colors.black.withValues(alpha: 0.1),
                     blurRadius: 20,
                     offset: const Offset(0, 10),
                   ),
                   BoxShadow(
-                    color: Colors.white.withOpacity(0.1),
+                    color: Colors.white.withValues(alpha: 0.1),
                     blurRadius: 10,
                     offset: const Offset(0, -5),
                   ),
@@ -84,7 +84,7 @@ class _LiquidGlassButtonState extends State<LiquidGlassButton> {
                 // ),
                 borderRadius: BorderRadius.circular(widget.borderRadius),
                 border: Border.all(
-                  color: Colors.white.withOpacity(0.2),
+                  color: Colors.white.withValues(alpha: 0.2),
                   width: 1.2,
                 ),
               ),
@@ -156,7 +156,7 @@ class _LiquidGlassTextureState extends State<LiquidGlassTexture> {
           borderRadius: BorderRadius.circular(widget.borderRadius),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.2),
+              color: Colors.black.withValues(alpha: 0.2),
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),
@@ -192,7 +192,7 @@ class _LiquidGlassTextureState extends State<LiquidGlassTexture> {
                 // ),
                 borderRadius: BorderRadius.circular(widget.borderRadius),
                 border: Border.all(
-                  color: Colors.white.withOpacity(0.2),
+                  color: Colors.white.withValues(alpha: 0.2),
                   width: 1.5,
                 ),
               ),
@@ -211,8 +211,8 @@ class _LiquidGlassTextureState extends State<LiquidGlassTexture> {
                           begin: AlignmentGeometry.xy(-1, -2.5),
                           end: AlignmentGeometry.xy(1, 2.5),
                           colors: [
-                            Colors.black.withOpacity(.1),
-                            Colors.white.withOpacity(.1),
+                            Colors.black.withValues(alpha: .1),
+                            Colors.white.withValues(alpha: .1),
                           ],
                         ),
                         borderRadius: BorderRadius.vertical(

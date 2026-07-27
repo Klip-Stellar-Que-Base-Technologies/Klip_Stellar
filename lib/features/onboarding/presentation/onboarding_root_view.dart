@@ -6,7 +6,6 @@ import 'package:klip/features/onboarding/presentation/onboarding_page_1.dart';
 import 'package:klip/features/onboarding/presentation/onboarding_page_2.dart';
 import 'package:klip/features/profile/auth/presentation/login_view.dart';
 import 'package:klip/features/profile/auth/presentation/signup_view.dart';
-import 'package:klip/gen/assets.gen.dart';
 import 'package:klip/shared/widget/liquid_glass_texture.dart';
 
 class OnboardingRootPage extends ConsumerStatefulWidget {
@@ -120,22 +119,22 @@ class _OnboardingRootPageState extends ConsumerState<OnboardingRootPage> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 LiquidGlassTexture(
-                  width: pageView == OnboardingRootViewPage.OBV_1 ? 14.w : 62.w,
+                  width: pageView == OnboardingRootViewPage.page1 ? 14.w : 62.w,
                   height: 12.h,
                   child: SizedBox.shrink(),
                 ),
                 LiquidGlassTexture(
-                  width: pageView == OnboardingRootViewPage.OBV_2 ? 14.w : 62.w,
+                  width: pageView == OnboardingRootViewPage.page2 ? 14.w : 62.w,
                   height: 12.h,
                   child: SizedBox.shrink(),
                 ),
                 LiquidGlassTexture(
-                  width: pageView == OnboardingRootViewPage.OBV_3 ? 14.w : 62.w,
+                  width: pageView == OnboardingRootViewPage.page3 ? 14.w : 62.w,
                   height: 12.h,
                   child: SizedBox.shrink(),
                 ),
                 LiquidGlassTexture(
-                  width: pageView == OnboardingRootViewPage.OBV_4 ? 14.w : 62.w,
+                  width: pageView == OnboardingRootViewPage.page4 ? 14.w : 62.w,
                   height: 12.h,
                   child: SizedBox.shrink(),
                 ),

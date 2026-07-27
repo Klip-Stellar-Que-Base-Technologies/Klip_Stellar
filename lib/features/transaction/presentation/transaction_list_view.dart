@@ -131,10 +131,6 @@ class TransactionListView extends ConsumerWidget {
     );
   }
 
-  Widget _transactionItem() {
-    return Row(children: []);
-  }
-
   Color _returnColorAtValue(
     TransactionFilter inTransaction,
     TransactionFilter matchTransaction,

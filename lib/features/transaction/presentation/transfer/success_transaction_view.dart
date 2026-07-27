@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:klip/gen/assets.gen.dart';
-import 'package:klip/gen/colors.gen.dart';
 import 'package:klip/shared/widget/liquid_glass_texture.dart';
 
 class SuccessTransactionView extends StatelessWidget {

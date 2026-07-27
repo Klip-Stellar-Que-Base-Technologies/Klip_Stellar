@@ -12,7 +12,8 @@ class HomeView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var withTransaction = false;
+    // TODO(2.6): replace with real data from wallet provider
+    const hasTransactions = false;
     return Scaffold(
       appBar: klipsAppBar(),
 
@@ -213,7 +214,7 @@ class HomeView extends ConsumerWidget {
               const SizedBox(
                 height: 50,
               ), // ~ Would not be availible on transaction
-              _transctionBlock(true),
+              _transctionBlock(hasTransactions),
             ],
           ),
         ),
@@ -222,7 +223,7 @@ class HomeView extends ConsumerWidget {
   }
 
   Widget _transctionBlock(bool withTransaction) {
-    return withTransaction
+    return !withTransaction
         ? Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,

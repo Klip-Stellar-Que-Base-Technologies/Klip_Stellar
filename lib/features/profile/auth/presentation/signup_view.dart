@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:klip/features/onboarding/app/onboarding_root_view_provider.dart';
 import 'package:klip/shared/style/text_style.dart';
 import 'package:klip/shared/widget/liquid_glass_texture.dart';
 
@@ -15,6 +16,12 @@ class SignupView extends HookConsumerWidget {
     final _username = useTextEditingController();
     final _password = useTextEditingController();
     final _repassword = useTextEditingController();
+
+    void _goToLogin() {
+      ref
+          .read(onboardingRootViewProvider.notifier)
+          .changeView(OnboardingRootViewPage.page4);
+    }
 
     return Scaffold(
       body: Padding(
@@ -52,6 +59,7 @@ class SignupView extends HookConsumerWidget {
                     // ~ Password TextField
                     TextField(
                       controller: _password,
+                      obscureText: true,
                       decoration: InputDecoration(
                         hint: Text("Password"),
                         border: OutlineInputBorder(
@@ -64,6 +72,7 @@ class SignupView extends HookConsumerWidget {
                     // ~ Re-Password TextField
                     TextField(
                       controller: _repassword,
+                      obscureText: true,
                       decoration: InputDecoration(
                         hint: Text("Reconfirm Password"),
                         border: OutlineInputBorder(
@@ -73,24 +82,23 @@ class SignupView extends HookConsumerWidget {
                     ),
                     SizedBox(height: 12.h),
 
-                    // ~ Login Button
+                    // ~ Sign Up Button — advances to LoginView page
                     LiquidGlassButton(
                       width: double.infinity,
-                      onTap: () {},
+                      onTap: _goToLogin,
                       child: Text("Sign Up", style: AppTextStyle.sb16),
                     ),
-                    // SizedBox(height: 13.h),
 
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Text("Don't have an account?", style: AppTextStyle.r12),
+                        Text("Already have an account?", style: AppTextStyle.r12),
                         TextButton(
                           style: TextButton.styleFrom(
                             foregroundColor: Colors.white,
                             padding: EdgeInsets.zero,
                           ),
-                          onPressed: () {},
+                          onPressed: _goToLogin,
                           child: Text("Sign In", style: AppTextStyle.sb12),
                         ),
                       ],

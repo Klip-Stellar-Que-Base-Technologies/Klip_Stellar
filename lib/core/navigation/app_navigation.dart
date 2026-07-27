@@ -98,10 +98,10 @@ class NavigationMenu extends ConsumerWidget {
   }
 
   int _getIndexFromRoute(String route) {
-    if (route.contains('/main/home/project')) return 0;
-    if (route.contains('/main/library')) return 1;
-    if (route.contains('/main/sticky-notes')) return 2;
-    if (route.contains('/main/profile')) return 3;
+    if (route.contains('/main/home')) return 0;
+    if (route.contains('/main/savings')) return 1;
+    if (route.contains('/main/transaction')) return 2;
+    if (route.contains('/main/settings')) return 3;
     return 0;
   }
 
