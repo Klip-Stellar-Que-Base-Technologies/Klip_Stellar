@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:klip/core/routes/app_router.dart';
 import 'package:klip/core/stellar/stellar_provider.dart';
 import 'package:klip/gen/assets.gen.dart';
 import 'package:klip/gen/colors.gen.dart';
@@ -142,14 +144,14 @@ class HomeView extends ConsumerWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  // ~ Transfer Button
+                  // ~ Import Wallet Button
                   LiquidGlassButton(
                     backgroundColor: ColorName.greenBackground.withValues(
                       alpha: .3,
                     ),
                     height: 44.h,
                     width: 165.w,
-                    onTap: () {},
+                    onTap: () => context.push(AppRoutes.importWallet),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

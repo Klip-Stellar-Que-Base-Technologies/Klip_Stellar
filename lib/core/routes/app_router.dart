@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:klip/core/navigation/app_navigation.dart';
 import 'package:klip/core/services/onboarding_service.dart';
 import 'package:klip/features/home/presentation/home_view.dart';
+import 'package:klip/features/home/presentation/import_wallet_view.dart';
 import 'package:klip/features/onboarding/presentation/onboarding_root_view.dart';
 import 'package:klip/features/profile/auth/presentation/login_view.dart';
 import 'package:klip/features/profile/auth/presentation/signup_view.dart';
@@ -123,7 +123,7 @@ class AppRouter {
         ),
         GoRoute(
           path: AppRoutes.importWallet,
-          builder: (context, state) => const _ImportWalletPlaceholder(),
+          builder: (context, state) => const ImportWalletView(),
         ),
       ],
     );
@@ -190,18 +190,10 @@ class AppRouter {
       ),
       GoRoute(
         path: AppRoutes.importWallet,
-        builder: (context, state) => const _ImportWalletPlaceholder(),
+        builder: (context, state) => const ImportWalletView(),
       ),
     ],
   );
 }
 
-// Temporary placeholder — replaced by the real ImportWalletView in 2.7.
-class _ImportWalletPlaceholder extends StatelessWidget {
-  const _ImportWalletPlaceholder();
-
-  @override
-  Widget build(BuildContext context) => const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      );
-}
+// Temporary placeholder removed — ImportWalletView is now the real implementation.
