@@ -14,7 +14,6 @@ class HomeView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // TODO(2.6): replace with real data from wallet provider
     const hasTransactions = false;
 
     final keypairAsync = ref.watch(walletKeypairProvider);
@@ -25,6 +24,13 @@ class HomeView extends ConsumerWidget {
         return '${id.substring(0, 6)}...${id.substring(id.length - 6)}';
       },
       loading: () => 'Loading...',
+      error: (_, __) => 'Error',
+    );
+
+    final balanceAsync = ref.watch(xlmBalanceProvider);
+    final balanceLabel = balanceAsync.when(
+      data: (bal) => bal != null ? '$bal XLM' : 'Unfunded',
+      loading: () => '...',
       error: (_, __) => 'Error',
     );
 
@@ -87,7 +93,7 @@ class HomeView extends ConsumerWidget {
                       const SizedBox(height: 19),
 
                       // ~ Wallet balance
-                      Text("\$0.00", style: AppTextStyle.b32),
+                      Text(balanceLabel, style: AppTextStyle.b32),
 
                       const Spacer(),
                       // ~ Card Action
