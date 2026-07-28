@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:klip/core/stellar/stellar_provider.dart';
 import 'package:klip/gen/assets.gen.dart';
 import 'package:klip/gen/colors.gen.dart';
 import 'package:klip/shared/style/text_style.dart';
@@ -12,6 +14,16 @@ class SavingsView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final keypairAsync = ref.watch(walletKeypairProvider);
+    final address = keypairAsync.when(
+      data: (kp) {
+        final id = kp.accountId;
+        return '${id.substring(0, 6)}...${id.substring(id.length - 6)}';
+      },
+      loading: () => 'Loading...',
+      error: (_, __) => 'Error',
+    );
+
     return Scaffold(
       appBar: klipsAppBar(),
       body: Padding(
@@ -32,17 +44,28 @@ class SavingsView extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     // ~ Wallet address
-                    Row(
-                      spacing: 10,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Assets.svgIcons.walletIcon.svg(),
-                        Text(
-                          "0X45690Qws59957865REkn.....",
-                          style: AppTextStyle.m14,
-                        ),
-                      ],
+                    GestureDetector(
+                      onTap: () {
+                        final full = keypairAsync.value?.accountId;
+                        if (full != null) {
+                          Clipboard.setData(ClipboardData(text: full));
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Address copied'),
+                              duration: Duration(seconds: 2),
+                            ),
+                          );
+                        }
+                      },
+                      child: Row(
+                        spacing: 10,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Assets.svgIcons.walletIcon.svg(),
+                          Text(address, style: AppTextStyle.m14),
+                        ],
+                      ),
                     ),
 
                     // ~ Saving CHart
