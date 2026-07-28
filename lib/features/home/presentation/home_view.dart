@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -182,6 +183,12 @@ class HomeView extends ConsumerWidget {
 
               const SizedBox(height: 21),
 
+              // ~ Friendbot (debug/testnet only)
+              if (kDebugMode)
+                _FriendbotButton(keypairAsync: keypairAsync),
+
+              if (kDebugMode) const SizedBox(height: 14),
+
               // ~ Funding pattern
               LiquidGlassTexture(
                 borderRadius: 8.r,
@@ -267,5 +274,76 @@ class HomeView extends ConsumerWidget {
             ],
           )
         : Column(children: []);
+  }
+}
+
+// ── Friendbot debug button (only compiled in debug mode) ─────────────────────
+
+class _FriendbotButton extends ConsumerStatefulWidget {
+  final AsyncValue keypairAsync;
+  const _FriendbotButton({required this.keypairAsync});
+
+  @override
+  ConsumerState<_FriendbotButton> createState() => _FriendbotButtonState();
+}
+
+class _FriendbotButtonState extends ConsumerState<_FriendbotButton> {
+  bool _loading = false;
+
+  Future<void> _fund() async {
+    final keypair = widget.keypairAsync.value;
+    if (keypair == null) return;
+
+    setState(() => _loading = true);
+    try {
+      final service = ref.read(stellarServiceProvider);
+      final success = await service.fundTestnetAccount(keypair.accountId);
+      if (!mounted) return;
+      if (success) {
+        // Refresh balance after funding.
+        ref.invalidate(xlmBalanceProvider);
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('✅ Friendbot funded your account!')),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Friendbot request failed.')),
+        );
+      }
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: $e')),
+      );
+    } finally {
+      if (mounted) setState(() => _loading = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return LiquidGlassButton(
+      width: double.infinity,
+      backgroundColor: Colors.deepPurple.withValues(alpha: .4),
+      onTap: _loading ? () {} : _fund,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        spacing: 8,
+        children: [
+          if (_loading)
+            const SizedBox(
+              width: 16,
+              height: 16,
+              child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+            )
+          else
+            const Icon(Icons.water_drop_outlined, color: Colors.white, size: 18),
+          Text(
+            _loading ? 'Funding...' : '🤖 Fund with Friendbot',
+            style: AppTextStyle.sb16,
+          ),
+        ],
+      ),
+    );
   }
 }
