@@ -34,6 +34,9 @@ dependencies:
   stellar_flutter_sdk: ^3.0.5
   flutter_secure_storage: ^9.2.4
 
+  # Persistence
+  shared_preferences: ^2.5.3
+
 
 
 
@@ -44,7 +47,7 @@ dev_dependencies:
   flutter_lints: ^6.0.0
   build_runner: ^2.4.0
   riverpod_generator: ^3.0.1
-  flutter_gen_runner: ^5.10.0
+  flutter_gen_runner: 5.11.0
 
 
 flutter_gen:
