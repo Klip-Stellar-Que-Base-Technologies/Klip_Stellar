@@ -36,14 +36,14 @@ Foundation: create/load keypair on launch, persist onboarding flag, display real
 
 | # | Commit | File(s) | Notes |
 |---|--------|---------|-------|
-| 2.1 | `feat: add StellarService Riverpod provider` | `stellar_service.dart` (new provider file) | Expose `StellarService` as a `@riverpod` provider so screens can read it; use testnet by default |
-| 2.2 | `feat: create wallet keypair on first launch` | `main.dart` or app init | Call `StellarService.createKeyPair()` if `loadKeyPair()` returns null; store result in secure storage via the service |
-| 2.3 | `feat: add onboarding completion flag with shared_preferences` | new `onboarding_service.dart` | Persist `onboarding_complete` bool; redirect returning users from `/onboarding` straight to `/main/home` |
-| 2.4 | `feat: display real wallet address on HomeView` | `home_view.dart` | Replace hardcoded `"0X45690Qws59957865REkn..."` with truncated public key from loaded keypair |
-| 2.5 | `feat: display real wallet address on SavingsView` | `savings_view.dart` | Same as 2.4 for the savings card |
-| 2.6 | `feat: live XLM balance via FutureProvider` | new `wallet_provider.dart` | `FutureProvider` calling `StellarService.getBalances()`; auto-refresh on focus; replaces hardcoded `$0.00` on HomeView |
-| 2.7 | `feat: wire Import Wallet button to import flow` | `home_view.dart` + new `import_wallet_view.dart` | Secret seed input screen; calls `StellarService.importKeyPair(seed)`; validates before saving |
-| 2.8 | `feat: Friendbot fund button (debug/testnet only)` | `home_view.dart` or settings debug section | Calls `StellarService.fundTestnetAccount()`; hidden behind a `kDebugMode` check |
+| 2.1 | `feat: add StellarService Riverpod provider` | `stellar_provider.dart` (new) | ✅ done — `stellarServiceProvider`, `walletKeypairProvider` (AsyncNotifier), `xlmBalanceProvider` |
+| 2.2 | `feat: create wallet keypair on first launch` | `stellar_provider.dart` | ✅ done — `WalletKeypair.build()` loads existing key or calls `createKeyPair()` on first launch |
+| 2.3 | `feat: add onboarding completion flag with shared_preferences` | `onboarding_service.dart` (new), `main.dart`, `app_router.dart` | ✅ done — `OnboardingService`, `SharedPreferences` injected via `ProviderScope`, router redirects `/onboarding` → `/main/home` when flag is set |
+| 2.4 | `feat: display real wallet address on HomeView` | `home_view.dart` | ✅ done — truncated `first6...last6`, tap to copy |
+| 2.5 | `feat: display real wallet address on SavingsView` | `savings_view.dart` | ✅ done — same as 2.4 |
+| 2.6 | `feat: live XLM balance via FutureProvider` | `home_view.dart`, `stellar_provider.dart` | ✅ done — `xlmBalanceProvider` shows `X XLM`, `Unfunded`, or loading state |
+| 2.7 | `feat: wire Import Wallet button to import flow` | `import_wallet_view.dart` (new), `home_view.dart`, `app_router.dart` | ✅ done — seed input screen, validates, calls `importFromSeed()`, refreshes balance |
+| 2.8 | `feat: Friendbot fund button (debug/testnet only)` | `home_view.dart` | ✅ done — `kDebugMode` guard, calls `fundTestnetAccount()`, invalidates balance on success |
 
 ---
 
