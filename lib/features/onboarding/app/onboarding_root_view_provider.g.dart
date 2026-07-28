@@ -42,7 +42,7 @@ final class OnboardingRootViewProvider
 }
 
 String _$onboardingRootViewHash() =>
-    r'3be218f64b360275998c4a70a061a59a46578423';
+    r'0d608f51cc38ca8e71ba8ffe6349861e2f2a9cad';
 
 abstract class _$OnboardingRootView extends $Notifier<OnboardingRootViewPage> {
   OnboardingRootViewPage build();
