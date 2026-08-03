@@ -1,154 +1,137 @@
 # Klip — Stellar Wallet App
 
-A self-custody Flutter wallet built on the Stellar blockchain. Klip lets users manage XLM and Stellar assets, send payments, and grow savings — all from a single mobile app.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Flutter](https://img.shields.io/badge/Flutter-3.35.3-blue.svg)](https://flutter.dev)
+[![Blockchain](https://img.shields.io/badge/Blockchain-Stellar-purple.svg)](https://stellar.org)
+
+**Klip** is a non-custodial, self-custody mobile wallet built on the **Stellar blockchain** using **Flutter** and **Riverpod**. It enables users to manage XLM and Stellar assets, execute fast payments, track transaction history, and automatically grow savings through smart funding rules.
 
 ---
 
-## Tech Stack
+## 🌟 Key Features
 
-| Layer | Library |
-|---|---|
-| Framework | Flutter (FVM `3.35.3`) |
-| State | Riverpod + flutter_hooks |
-| Routing | go_router |
-| Blockchain | stellar_flutter_sdk `^3.0.5` |
-| Key storage | flutter_secure_storage |
-| UI utilities | flutter_screenutil, flutter_svg, flutter_gen |
+- **Keypair Management**: On-device key generation, seed phrase import, and secure storage using OS-level encrypted storage.
+- **Instant Transfers**: Send and receive XLM and Stellar assets with real-time fee calculation from Horizon.
+- **Savings Wallet**: Dedicated savings account separation with automated funding rules (e.g., auto-save a percentage of every outgoing payment).
+- **Testnet Friendbot**: Integrated one-tap testnet wallet funding for developers and testing.
+- **Transaction History**: Live transaction list with filtering, sorting, and detail views directly from the Stellar Horizon network.
+- **Security First**: Local authentication (biometrics/PIN) protecting key export, seed backup, and transaction signing.
+- **Modern UI/UX**: Fluid glassmorphism visual aesthetics, dark/light theme support, and seamless tab-based navigation.
 
 ---
 
-## Project Structure
+## 🛠 Tech Stack
 
-```
+| Component | Library / Tool | Description |
+|---|---|---|
+| **Framework** | Flutter (FVM `3.35.3`) | Cross-platform UI toolkit for iOS, Android, macOS, and Web |
+| **Language** | Dart `^3.0.0` | Strongly typed object-oriented language |
+| **State Management** | Riverpod (`flutter_riverpod`, `riverpod_annotation`) | Reactive, compile-safe state management |
+| **Routing** | `go_router` | Declarative routing solution |
+| **Blockchain SDK** | `stellar_flutter_sdk` `^3.0.5` | Stellar Horizon REST client and transaction builder |
+| **Secure Storage** | `flutter_secure_storage` | Hardware-backed encrypted key/seed storage |
+| **Local Auth** | `local_auth` | Biometric (Face ID / Touch ID / Fingerprint) & PIN security |
+| **Preferences** | `shared_preferences` | Persistent key-value storage for app settings |
+| **UI & Assets** | `flutter_screenutil`, `flutter_svg`, `flutter_gen` | Responsive scaling, SVG rendering, typed asset generation |
+
+---
+
+## 📁 Project Structure
+
+```text
 lib/
-  core/
-    navigation/       # Bottom nav shell + provider
-    routes/           # go_router config (AppRouter, AppRoutes)
-    stellar/          # StellarService — blockchain interface layer
-  features/
-    onboarding/       # Splash, page 1 & 2, signup, login
-    home/             # Dashboard: balance card, transfer/withdraw, funding rule
-    transaction/      # Transaction list + transfer flow (wallet select, success)
-    saving/           # Savings wallet view + staking info
-    settings/         # Wallet mgmt, notifications, theme, profile
-    profile/auth/     # Login + signup views
-  shared/
-    components/       # Dialogs, loading, animations, rich text, thumbnails
-    style/            # Text styles
-    widget/           # AppBar, LiquidGlassTexture, EmptyView
-  gen/                # Auto-generated: assets.gen.dart, colors.gen.dart
+├── core/
+│   ├── navigation/         # Bottom navigation shell & tab providers
+│   ├── routes/             # GoRouter configuration (AppRouter, AppRoutes)
+│   └── stellar/            # StellarService — Horizon network API & key management
+├── features/
+│   ├── onboarding/         # Onboarding carousel, splash, and auth entry views
+│   ├── home/               # Dashboard, live XLM balance card, quick actions, funding rule
+│   ├── transaction/        # Transaction list, filter views, transfer flow, receipt screen
+│   ├── saving/             # Savings wallet view, withdrawal flow, savings analytics
+│   ├── settings/           # Security, seed export, theme toggle, notifications
+│   └── profile/auth/       # Login and signup screens
+├── shared/
+│   ├── components/         # Reusable dialogs, loading indicators, custom buttons
+│   ├── style/              # Typography styles, text themes, and color tokens
+│   └── widget/             # App bars, background textures, empty state views
+└── gen/                    # Auto-generated assets and colors (via flutter_gen)
 ```
 
 ---
 
-## What Is Built (UI)
+## 🚀 Getting Started
 
-- Onboarding flow — 4-page swipeable PageView (2 intro pages → signup → login)
-- Bottom navigation shell — Home, Transactions, Savings, Settings tabs
-- Home screen — wallet address display, balance card, Transfer/Withdraw buttons, Import/View wallet buttons, funding rule card, empty transaction state
-- Transaction list — filter tabs (All / Deposits / Withdrawals), sort dropdown, hardcoded list item
-- Transfer flow — wallet selection screen (Savings Wallet / External Wallet), success screen
-- Savings screen — savings wallet card, withdrawal button, staking info banner, empty state
-- Settings screen — Wallet Management, Notifications, Theme, Profile sections (all static)
-- Login / Signup — form UI with navigation wired to home
+### Prerequisites
 
----
+- [Flutter SDK](https://flutter.dev/docs/get-started/install) (version `3.35.3` recommended)
+- [FVM (Flutter Version Management)](https://fvm.app/) *(optional, but recommended)*
+- [CocoaPods](https://cocoapods.org/) (for iOS/macOS builds)
 
-## What Needs to Be Built
+### Installation & Local Setup
 
-### 1. Stellar / Wallet Core
-- [ ] **Wallet creation** — call `StellarService.createKeyPair()` on first launch, persist and display the public key
-- [ ] **Wallet import** — wire the "Import Wallet" button to `StellarService.importKeyPair(seed)` with a secret seed input screen
-- [ ] **Live balance** — replace the hardcoded `$0.00` with `StellarService.getBalances()` polled via a Riverpod `FutureProvider`
-- [ ] **Testnet funding** — call `StellarService.fundTestnetAccount()` for dev/testing; expose a "Fund with Friendbot" debug option
-- [ ] **Send payment** — wire the Transfer flow to `StellarService.sendPayment()`, passing destination address, amount, and optional memo
-- [ ] **Transaction history** — fetch real transactions from Horizon (`sdk.transactions.forAccount()`) and replace the hardcoded list item
+1. **Clone the Repository**
+   ```bash
+   git clone git@github.com:Klip-Stellar-Que-Base-Technologies/Klip_Stellar.git
+   cd Klip_Stellar
+   ```
 
-### 2. Authentication
-- [ ] **Auth strategy decision** — Klip is self-custody, so decide whether "login" is a local PIN/biometric gate or a full backend account. Currently the login button just navigates to home with no validation.
-- [ ] **PIN / biometric lock** — protect app entry and transaction signing with `local_auth`
-- [ ] **Onboarding completion flag** — persist a flag (e.g. `shared_preferences`) so returning users skip onboarding and go straight to home or the lock screen
+2. **Set up Flutter Version (FVM)**
+   ```bash
+   # Install FVM globally if not already installed
+   dart pub global activate fvm
 
-### 3. Transaction Feature
-- [ ] **Transaction model** — create a `Transaction` data class mapping Horizon's `TransactionResponse`
-- [ ] **Transaction provider** — replace the static `TransactionFilter` notifier with a real Riverpod provider that fetches and filters Horizon transactions
-- [ ] **Transaction list items** — replace the single hardcoded `ListTile` with a proper list driven by the provider
-- [ ] **Transaction detail screen** — tap a transaction to see full details (hash, fee, memo, timestamp)
-- [ ] **Pagination / streaming** — use Horizon's cursor-based paging or SSE streaming for real-time updates
+   # Pin & install project Flutter version
+   fvm use 3.35.3
+   ```
 
-### 4. Transfer Flow
-- [ ] **Destination input screen** — a screen to enter/scan a Stellar address before wallet selection
-- [ ] **Amount input screen** — enter amount, select asset (XLM or other trustlines)
-- [ ] **Fee preview** — show the base fee before the user confirms
-- [ ] **Wire wallet selection** — "Savings Wallet" should transfer from the savings keypair; "External Wallet" should open the destination input screen
-- [ ] **Success screen data** — replace hardcoded `4000 USDT` / `Recipient` labels with real transaction data passed via route extras
-- [ ] **Share receipt** — implement the "Share Receipt" button using the `share_plus` package
+3. **Install Dependencies**
+   ```bash
+   fvm flutter pub get
+   ```
 
-### 5. Savings Feature
-- [ ] **Savings wallet** — generate or derive a separate Stellar keypair for savings, stored separately in secure storage
-- [ ] **Savings chart** — implement the empty `SizedBox` placeholder with a real chart (e.g. `fl_chart`) showing savings over time
-- [ ] **Funding rule** — implement the "Save X% after each payment" logic: intercept outgoing payments and auto-transfer the configured percentage to the savings wallet
-- [ ] **Staking / yield** — the UI mentions 0.3% yield on up to $2000 staked; decide if this is on-chain (Soroban contract) or off-chain and implement accordingly
-- [ ] **Withdrawal to main wallet** — wire the withdrawal button to transfer from savings keypair back to main keypair
+4. **Run Code Generation**
+   Generate Riverpod providers, assets (`flutter_gen`), and database code:
+   ```bash
+   fvm flutter pub run build_runner build --delete-conflicting-outputs
+   ```
 
-### 6. Settings
-- [ ] **Connect / Disconnect wallet** — implement wallet connection state; "Disconnect" should clear the keypair from secure storage and return to onboarding
-- [ ] **Notifications toggle** — integrate `firebase_messaging` or local notifications for transaction alerts
-- [ ] **Theme toggle** — implement light/dark mode switching, persisted via a Riverpod provider + `shared_preferences`
-- [ ] **Update Email / Password** — only relevant if a backend auth layer is added; otherwise remove these items
-- [ ] **Backup / export secret key** — critical for self-custody: let users view and copy their secret seed from settings (behind biometric auth)
-
-### 7. QR Code
-- [ ] **Receive screen** — display the wallet address as a QR code for incoming payments (`qr_flutter`)
-- [ ] **Scan to send** — add a QR scanner to the transfer destination input (`mobile_scanner`)
-
-### 8. Multi-Asset Support
-- [ ] **Trustlines** — allow users to add Stellar trustlines for non-XLM assets (USDC, etc.)
-- [ ] **Asset list on home** — show all asset balances, not just XLM
-
-### 9. Error Handling & UX Polish
-- [ ] **Global error handling** — wrap Stellar calls in try/catch and surface errors via the existing dialog/animation components
-- [ ] **Loading states** — use the existing `LoadingScreen` / `LoadingAnimationWidget` during async Stellar operations
-- [ ] **Empty states** — the `_transactionBlock` helper is inverted (passes `true` to show the empty state); fix the logic and wire it to real data
-- [ ] **Network awareness** — detect offline state and show appropriate messaging
+5. **Launch the Application**
+   ```bash
+   # Run on connected device or emulator
+   fvm flutter run
+   ```
 
 ---
 
-## Suggested Build Order
+## 🔒 Security Architecture
 
-1. Wallet creation + balance display (unblocks everything else)
-2. Auth gate (PIN/biometric) + onboarding completion flag
-3. Send payment flow end-to-end
-4. Real transaction history
-5. Savings wallet + funding rule
-6. QR receive/scan
-7. Settings actions (disconnect, backup seed, notifications)
-8. Multi-asset / trustlines
-9. Polish: error handling, loading states, theme toggle
+Klip operates on a **self-custody** model:
+- **Private Key Isolation**: Private keys and secret seeds never leave the local device and are never transmitted to any central server.
+- **Hardware Encryption**: Keys are encrypted using iOS Keychain and Android Keystore via `flutter_secure_storage`.
+- **Biometric Protection**: Sensitive operations (exporting seed, authorizing major transfers) require local biometric authentication.
 
 ---
 
-## Running the Project
+## ⚙️ Network Configuration
 
-```bash
-# Install FVM if needed
-dart pub global activate fvm
+By default, the app is configured to communicate with the **Stellar Testnet** for development and testing.
 
-# Use the pinned Flutter version
-fvm use
+- **Testnet Horizon Server**: `https://horizon-testnet.stellar.org`
+- **Friendbot Endpoint**: `https://friendbot.stellar.org`
 
-# Install dependencies
-fvm flutter pub get
-
-# Run code generation (Riverpod + assets)
-fvm flutter pub run build_runner build --delete-conflicting-outputs
-
-# Run the app
-fvm flutter run
-```
+To switch to **Stellar Mainnet**, update the `StellarNetwork` configuration in `lib/core/stellar/stellar_provider.dart`.
 
 ---
 
-## Environment
+## 📋 Task Tracking & Roadmap
 
-The app currently targets **Stellar Testnet**. To switch to mainnet, change the `StellarNetwork` passed to `StellarService` in its provider and update the Horizon URL accordingly. Do not ship with testnet as the default.
+All active features, bug fixes, and development roadmap items are organized into structured groups in [`ISSUES.md`](ISSUES.md).
+
+For detailed progress, task status, and dependency maps, please refer to the [`ISSUES.md`](ISSUES.md) document.
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.

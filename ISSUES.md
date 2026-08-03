@@ -145,6 +145,7 @@ Foundation: create/load keypair on launch, persist onboarding flag, display real
 | # | Commit | File(s) | Notes |
 |---|--------|---------|-------|
 | 11.1 | `chore: update project license to MIT License` | `LICENSE`, `ISSUES.md` | ✅ done — replaced Apache 2.0 with standard MIT License |
+| 11.2 | `docs: restructure README.md with project details and setup guide` | `README.md`, `ISSUES.md` | ✅ done — replaced raw checklist with full documentation & setup guide |
 
 ---
 
