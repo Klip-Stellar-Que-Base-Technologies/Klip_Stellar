@@ -140,6 +140,14 @@ Foundation: create/load keypair on launch, persist onboarding flag, display real
 
 ---
 
+## Group 11 — Quality of Life & Documentation
+
+| # | Commit | File(s) | Notes |
+|---|--------|---------|-------|
+| 11.1 | `chore: update project license to MIT License` | `LICENSE`, `ISSUES.md` | ✅ done — replaced Apache 2.0 with standard MIT License |
+
+---
+
 ## Dependency Map (quick reference)
 
 ```
@@ -153,8 +161,10 @@ Group 2 (wallet core)  ───────────────────
   └─► Group 8 (QR)
   └─► Group 9 (multi-asset)
 Group 10 (polish)  ───────────────────────────────────────► parallel with 4–9
+Group 11 (QoL)     ───────────────────────────────────────► documentation & quality of life
 ```
 
 ---
 
-_Last updated: 2026-07-27_
+_Last updated: 2026-08-03_
+
