@@ -75,12 +75,12 @@ Foundation: create/load keypair on launch, persist onboarding flag, display real
 
 | # | Commit | File(s) | Notes |
 |---|--------|---------|-------|
-| 5.1 | `feat: Transaction data model mapping Horizon TransactionResponse` | new `transaction_model.dart` | Fields: hash, type (debit/credit), amount, asset, counterparty, memo, timestamp, fee |
-| 5.2 | `feat: transaction FutureProvider fetching from Horizon` | new `transaction_history_provider.dart` | Replaces static `TransactionFilter` notifier; fetches for loaded keypair; applies filter |
-| 5.3 | `feat: replace hardcoded ListTile with real transaction list` | `transaction_list_view.dart` | Use provider from 5.2; `ListView.builder` over real data |
-| 5.4 | `feat: transaction list item widget` | new `transaction_list_item.dart` | Proper widget for one transaction: icon (in/out), address/label, amount with colour (green/red), date |
-| 5.5 | `feat: transaction detail screen` | new `transaction_detail_view.dart` + `app_router.dart` | Tap item → detail screen; shows hash, fee, memo, full timestamp |
-| 5.6 | `feat: cursor-based pagination on transaction list` | `transaction_history_provider.dart` | Horizon cursor paging; load-more on scroll |
+| 5.1 | `feat: Transaction data model mapping Horizon TransactionResponse` | new `transaction_model.dart` | ✅ done — `KlipTransaction` data model with Horizon `PaymentOperationResponse` factory |
+| 5.2 | `feat: transaction FutureProvider fetching from Horizon` | new `transaction_history_provider.dart` | ✅ done — `TransactionHistoryNotifier` fetching payments with `TransactionFilter` |
+| 5.3 | `feat: replace hardcoded ListTile with real transaction list` | `transaction_list_view.dart` | ✅ done — `ListView.builder` over real Horizon transaction history |
+| 5.4 | `feat: transaction list item widget` | new `transaction_list_item.dart` | ✅ done — `TransactionListItem` with direction icon, amount color, date |
+| 5.5 | `feat: transaction detail screen` | new `transaction_detail_view.dart` + `app_router.dart` | ✅ done — `TransactionDetailView` with hash, fee, memo, copy action |
+| 5.6 | `feat: cursor-based pagination on transaction list` | `transaction_history_provider.dart` | ✅ done — Horizon cursor paging with scroll listener `loadMore` |
 
 ---
 

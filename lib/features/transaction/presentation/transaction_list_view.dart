@@ -1,19 +1,42 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:klip/features/transaction/app/transaction_provider.dart';
+import 'package:go_router/go_router.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:klip/core/routes/app_router.dart';
+import 'package:klip/features/transaction/app/transaction_history_provider.dart';
+import 'package:klip/features/transaction/presentation/widgets/transaction_list_item.dart';
+import 'package:klip/gen/assets.gen.dart';
 import 'package:klip/gen/colors.gen.dart';
 import 'package:klip/shared/style/text_style.dart';
 import 'package:klip/shared/widget/liquid_glass_texture.dart';
 
+enum SomeDropDown { newToOld, oldToNew }
 
+enum TransactionFilter { all, deposit, withdrawals }
 
-class TransactionListView extends ConsumerWidget {
+class TransactionListView extends HookConsumerWidget {
   const TransactionListView({super.key});
 
   @override
-  Widget build(BuildContext context, ref) {
-    var filterState = ref.watch(transactionProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final historyState = ref.watch(transactionHistoryProvider);
+    final historyNotifier = ref.read(transactionHistoryProvider.notifier);
+    final scrollController = useScrollController();
+
+    useEffect(() {
+      void onScroll() {
+        if (scrollController.position.pixels >=
+            scrollController.position.maxScrollExtent - 200) {
+          historyNotifier.loadMore();
+        }
+      }
+
+      scrollController.addListener(onScroll);
+      return () => scrollController.removeListener(onScroll);
+    }, [scrollController]);
+
+    final filteredList = historyState.filteredTransactions;
 
     return Scaffold(
       appBar: AppBar(
@@ -21,108 +44,106 @@ class TransactionListView extends ConsumerWidget {
         centerTitle: false,
       ),
       body: Padding(
-        padding:
-            const EdgeInsets.symmetric(horizontal: 18) +
-            const EdgeInsets.only(top: 29),
+        padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 16.h),
         child: Column(
           children: [
-            // ~ Filter
+            // ~ Filter Buttons
             Row(
-              spacing: 8,
               mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
               children: [
                 LiquidGlassButton(
                   backgroundColor: _returnColorAtValue(
-                    filterState,
+                    historyState.filter,
                     TransactionFilter.all,
                   ),
-                  onTap: () {
-                    ref
-                        .read(transactionProvider.notifier)
-                        .updateState(TransactionFilter.all);
-                  },
+                  onTap: () => historyNotifier.setFilter(TransactionFilter.all),
                   child: Text("All", style: AppTextStyle.sb16),
                 ),
-
+                SizedBox(width: 8.w),
                 LiquidGlassButton(
                   backgroundColor: _returnColorAtValue(
-                    filterState,
+                    historyState.filter,
                     TransactionFilter.deposit,
                   ),
-                  onTap: () {
-                    ref
-                        .read(transactionProvider.notifier)
-                        .updateState(TransactionFilter.deposit);
-                  },
+                  onTap: () => historyNotifier.setFilter(TransactionFilter.deposit),
                   child: Text("Deposits", style: AppTextStyle.sb16),
                 ),
-
+                SizedBox(width: 8.w),
                 LiquidGlassButton(
                   backgroundColor: _returnColorAtValue(
-                    filterState,
+                    historyState.filter,
                     TransactionFilter.withdrawals,
                   ),
-                  onTap: () {
-                    ref
-                        .read(transactionProvider.notifier)
-                        .updateState(TransactionFilter.withdrawals);
-                  },
+                  onTap: () => historyNotifier.setFilter(TransactionFilter.withdrawals),
                   child: Text("Withdrawals", style: AppTextStyle.sb16),
                 ),
               ],
             ),
 
-            SizedBox(height: 50.h),
+            SizedBox(height: 24.h),
 
-            // ~ View Styling
+            // ~ Header Row
             Row(
               children: [
-                const SizedBox(width: 10),
+                SizedBox(width: 4.w),
                 Text("Recent Activities", style: AppTextStyle.b16),
-                Spacer(),
-                DropdownMenu(
-                  enableSearch: false,
-                  label: Text("View", style: AppTextStyle.r16),
-                  dropdownMenuEntries: [
-                    DropdownMenuEntry<SomeDropDown>(
-                      value: SomeDropDown.newToOld,
-                      label: "New to old",
-                    ),
-                    DropdownMenuEntry<SomeDropDown>(
-                      value: SomeDropDown.oldToNew,
-                      label: "Old to new",
-                    ),
-                  ],
-                ),
+                const Spacer(),
               ],
             ),
 
-            // ~
-            SingleChildScrollView(
-              child: Column(
-                children: [
-                  // ~Fix to use class to create a model class for the build
-                  ListTile(
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 10),
-                    minVerticalPadding: 23,
+            SizedBox(height: 12.h),
 
-                    title: Text(
-                      "Withdrawal to wallet",
-                      style: AppTextStyle.m14,
-                    ),
-                    subtitle: Text(
-                      "Sep 19 2025 13:58:24",
-                      style: AppTextStyle.l12,
-                    ),
-                    trailing: Text(
-                      "- \$13,000",
-                      style: AppTextStyle.r16.copyWith(
-                        color: ColorName.balanceNegative,
-                      ),
-                    ),
-                  ),
-                ],
+            // ~ Transactions List
+            Expanded(
+              child: RefreshIndicator(
+                onRefresh: () => historyNotifier.fetchInitial(),
+                child: historyState.isLoading
+                    ? const Center(
+                        child: CircularProgressIndicator(color: Colors.white),
+                      )
+                    : filteredList.isEmpty
+                        ? Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Assets.svgIcons.waitingIcon.svg(),
+                                SizedBox(height: 12.h),
+                                Text(
+                                  "No Transactions Found",
+                                  style: AppTextStyle.l12.copyWith(color: Colors.white70),
+                                ),
+                              ],
+                            ),
+                          )
+                        : ListView.builder(
+                            controller: scrollController,
+                            itemCount: filteredList.length +
+                                (historyState.isLoadingMore ? 1 : 0),
+                            itemBuilder: (context, index) {
+                              if (index == filteredList.length) {
+                                return Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 16.h),
+                                  child: const Center(
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                );
+                              }
+
+                              final tx = filteredList[index];
+                              return TransactionListItem(
+                                transaction: tx,
+                                onTap: () {
+                                  context.push(
+                                    AppRoutes.transactionDetail,
+                                    extra: tx,
+                                  );
+                                },
+                              );
+                            },
+                          ),
               ),
             ),
           ],
@@ -140,7 +161,3 @@ class TransactionListView extends ConsumerWidget {
         : Colors.transparent;
   }
 }
-
-enum SomeDropDown { newToOld, oldToNew }
-
-enum TransactionFilter { all, deposit, withdrawals }
