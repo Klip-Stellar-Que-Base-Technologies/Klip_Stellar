@@ -70,10 +70,9 @@ class WalletSelectionView extends StatelessWidget {
             ),
 
             // ~ External Wallet option
-            // TODO(4.1): replace with destination address input screen (Group 4)
             GestureDetector(
               onTap: () {
-                context.go(AppRoutes.transactionSuccessful);
+                context.go(AppRoutes.destinationInput);
               },
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
