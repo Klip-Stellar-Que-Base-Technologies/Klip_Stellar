@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -80,7 +78,7 @@ Sent via Klip Wallet
                 ],
               ),
               SizedBox(height: 10.h),
-              Text("Successfully Sent", style: AppTextStyle.r18),
+              Text("Successfully Sent", style: AppTextStyle.r16),
               SizedBox(height: 28.h),
               Text(displayAmount, style: AppTextStyle.b32),
               SizedBox(height: 28.h),
