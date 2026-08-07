@@ -11,6 +11,8 @@ import 'package:klip/features/profile/auth/presentation/login_view.dart';
 import 'package:klip/features/profile/auth/presentation/signup_view.dart';
 import 'package:klip/features/saving/presentation/savings_view.dart';
 import 'package:klip/features/settings/presentation/settings_view.dart';
+import 'package:klip/features/transaction/data/transaction_model.dart';
+import 'package:klip/features/transaction/presentation/transaction_detail_view.dart';
 import 'package:klip/features/transaction/presentation/transaction_list_view.dart';
 import 'package:klip/features/transaction/presentation/transfer/amount_input_view.dart';
 import 'package:klip/features/transaction/presentation/transfer/destination_input_view.dart';
@@ -29,6 +31,7 @@ class AppRoutes {
   static const String emptyView = '/empty_view';
   static const String homeRoute = '/main/home';
   static const String transaction = '/main/transaction';
+  static const String transactionDetail = '/main/transaction/detail';
   static const String savings = '/main/savings';
   static const String settings = '/main/settings';
 
@@ -156,6 +159,13 @@ class AppRouter {
         GoRoute(
           path: AppRoutes.lockScreen,
           builder: (context, state) => const LockScreen(),
+        ),
+        GoRoute(
+          path: AppRoutes.transactionDetail,
+          builder: (context, state) {
+            final tx = state.extra as KlipTransaction;
+            return TransactionDetailView(transaction: tx);
+          },
         ),
       ],
     );
