@@ -51,9 +51,9 @@ Foundation: create/load keypair on launch, persist onboarding flag, display real
 
 | # | Commit | File(s) | Notes |
 |---|--------|---------|-------|
-| 3.1 | `feat: add local_auth dependency and biometric helper service` | `pubspec.yaml`, new `auth_service.dart` | Wrapper around `local_auth` for PIN / biometric prompt |
-| 3.2 | `feat: biometric lock screen on app resume` | new `lock_screen.dart` + `app_router.dart` | Guard `/main/*` routes; redirect to lock screen if not authenticated; re-auth on background→foreground |
-| 3.3 | `feat: require auth before displaying secret seed` | settings flow | Biometric prompt before showing seed in Backup/Export option (Group 6) |
+| 3.1 | `feat: add local_auth dependency and biometric helper service` | `pubspec.yaml`, new `auth_service.dart` | ✅ done — `AuthService`, `authServiceProvider`, `appLockNotifierProvider` |
+| 3.2 | `feat: biometric lock screen on app resume` | new `lock_screen.dart` + `app_router.dart` | ✅ done — `LockScreen`, lifecycle listener in `main.dart`, `/lock_screen` router guard |
+| 3.3 | `feat: require auth before displaying secret seed` | settings flow | ✅ done — `Backup / Export Secret Seed` in `SettingsView` guarded with biometric prompt |
 
 ---
 
