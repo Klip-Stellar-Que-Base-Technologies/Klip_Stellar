@@ -40,6 +40,9 @@ dependencies:
   # Authentication
   local_auth: ^2.3.0
 
+  # Sharing
+  share_plus: ^10.1.4
+
 
 
 

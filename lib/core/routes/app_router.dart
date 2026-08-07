@@ -12,6 +12,8 @@ import 'package:klip/features/profile/auth/presentation/signup_view.dart';
 import 'package:klip/features/saving/presentation/savings_view.dart';
 import 'package:klip/features/settings/presentation/settings_view.dart';
 import 'package:klip/features/transaction/presentation/transaction_list_view.dart';
+import 'package:klip/features/transaction/presentation/transfer/amount_input_view.dart';
+import 'package:klip/features/transaction/presentation/transfer/destination_input_view.dart';
 import 'package:klip/features/transaction/presentation/transfer/success_transaction_view.dart';
 import 'package:klip/features/transaction/presentation/transfer/wallet_selection_view.dart';
 import 'package:klip/shared/widget/empty_view.dart';
@@ -32,6 +34,8 @@ class AppRoutes {
 
   static const String transactionSuccessful = '/transaction/success';
   static const String transactionWalletSelection = '/transaction/wallet_selection';
+  static const String destinationInput = '/transaction/destination_input';
+  static const String amountInput = '/transaction/amount_input';
 
   static const String lockScreen = '/lock_screen';
   static const String importWallet = '/import_wallet';
@@ -128,8 +132,22 @@ class AppRouter {
           builder: (context, state) => const WalletSelectionView(),
         ),
         GoRoute(
+          path: AppRoutes.destinationInput,
+          builder: (context, state) => const DestinationInputView(),
+        ),
+        GoRoute(
+          path: AppRoutes.amountInput,
+          builder: (context, state) {
+            final address = state.extra as String? ?? '';
+            return AmountInputView(destinationAddress: address);
+          },
+        ),
+        GoRoute(
           path: AppRoutes.transactionSuccessful,
-          builder: (context, state) => const SuccessTransactionView(),
+          builder: (context, state) {
+            final receipt = state.extra as TransactionReceipt?;
+            return SuccessTransactionView(receipt: receipt);
+          },
         ),
         GoRoute(
           path: AppRoutes.importWallet,
