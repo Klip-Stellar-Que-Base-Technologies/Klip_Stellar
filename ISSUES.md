@@ -61,13 +61,13 @@ Foundation: create/load keypair on launch, persist onboarding flag, display real
 
 | # | Commit | File(s) | Notes |
 |---|--------|---------|-------|
-| 4.1 | `feat: destination address input screen` | new `destination_input_view.dart` | Text field for Stellar address; basic format validation; used by "External Wallet" path |
-| 4.2 | `feat: amount input screen with asset selector` | new `amount_input_view.dart` | Enter amount; asset dropdown (XLM + any trustlines); shows available balance |
-| 4.3 | `feat: fee preview before confirm` | `amount_input_view.dart` | Fetch base fee from Horizon; show before user submits |
-| 4.4 | `feat: wire transfer flow end-to-end to StellarService.sendPayment` | `amount_input_view.dart` | Call `sendPayment()`; pass result to success screen via route extras |
-| 4.5 | `feat: pass real transaction data to SuccessTransactionView` | `success_transaction_view.dart` + `app_router.dart` | Replace hardcoded `4000 USDT` / `Recipient` / `Solana` with data from route extras |
-| 4.6 | `feat: implement Share Receipt button with share_plus` | `success_transaction_view.dart` + `pubspec.yaml` | Add `share_plus`; format receipt string; call `Share.share()` |
-| 4.7 | `feat: wire Transfer button on HomeView to wallet selection` | `home_view.dart` | Add `context.go(AppRoutes.transactionWalletSelection)` |
+| 4.1 | `feat: destination address input screen` | new `destination_input_view.dart` | ✅ done — text input with format validation (56 chars G...) |
+| 4.2 | `feat: amount input screen with asset selector` | new `amount_input_view.dart` | ✅ done — amount input, asset selector, balance check |
+| 4.3 | `feat: fee preview before confirm` | `amount_input_view.dart` | ✅ done — displays network base fee preview (0.00001 XLM) |
+| 4.4 | `feat: wire transfer flow end-to-end to StellarService.sendPayment` | `amount_input_view.dart` | ✅ done — submits transaction via `StellarService.sendPayment` & navigates with extra |
+| 4.5 | `feat: pass real transaction data to SuccessTransactionView` | `success_transaction_view.dart` + `app_router.dart` | ✅ done — `TransactionReceipt` model rendered in `SuccessTransactionView` |
+| 4.6 | `feat: implement Share Receipt button with share_plus` | `success_transaction_view.dart` + `pubspec.yaml` | ✅ done — `share_plus` integrated to format & share receipt |
+| 4.7 | `feat: wire Transfer button on HomeView to wallet selection` | `home_view.dart` | ✅ done — `Transfer` button opens wallet selection route |
 
 ---
 

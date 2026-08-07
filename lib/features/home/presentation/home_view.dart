@@ -107,7 +107,7 @@ class HomeView extends ConsumerWidget {
                           LiquidGlassButton(
                             height: 44.h,
                             width: 120.w,
-                            onTap: () {},
+                            onTap: () => context.go(AppRoutes.transactionWalletSelection),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
