@@ -55,7 +55,6 @@ class TransactionHistoryState {
             .where((tx) => tx.type == KlipTransactionType.debit)
             .toList();
       case TransactionFilter.all:
-      default:
         return transactions;
     }
   }
@@ -84,22 +83,24 @@ class TransactionHistoryNotifier extends Notifier<TransactionHistoryState> {
       final page = await service.getPayments(
         accountId: keypair.accountId,
         limit: 15,
-        order: Order.DESC,
+        order: RequestBuilderOrder.DESC,
       );
 
       final List<KlipTransaction> fetched = [];
-      for (final records in page.records ?? []) {
-        if (records is PaymentOperationResponse) {
-          fetched.add(
-            KlipTransaction.fromPaymentOperation(
-              operation: records,
-              accountId: keypair.accountId,
-            ),
-          );
+      final records = page.records;
+      if (records != null) {
+        for (final item in records) {
+          if (item is PaymentOperationResponse) {
+            fetched.add(
+              KlipTransaction.fromPaymentOperation(
+                operation: item,
+                accountId: keypair.accountId,
+              ),
+            );
+          }
         }
       }
 
-      final records = page.records;
       final nextCursor = records != null && records.isNotEmpty
           ? records.last.pagingToken
           : null;
@@ -140,22 +141,24 @@ class TransactionHistoryNotifier extends Notifier<TransactionHistoryState> {
         accountId: keypair.accountId,
         cursor: state.nextCursor,
         limit: 15,
-        order: Order.DESC,
+        order: RequestBuilderOrder.DESC,
       );
 
       final List<KlipTransaction> fetched = [];
-      for (final records in page.records ?? []) {
-        if (records is PaymentOperationResponse) {
-          fetched.add(
-            KlipTransaction.fromPaymentOperation(
-              operation: records,
-              accountId: keypair.accountId,
-            ),
-          );
+      final records = page.records;
+      if (records != null) {
+        for (final item in records) {
+          if (item is PaymentOperationResponse) {
+            fetched.add(
+              KlipTransaction.fromPaymentOperation(
+                operation: item,
+                accountId: keypair.accountId,
+              ),
+            );
+          }
         }
       }
 
-      final records = page.records;
       final nextCursor = records != null && records.isNotEmpty
           ? records.last.pagingToken
           : null;

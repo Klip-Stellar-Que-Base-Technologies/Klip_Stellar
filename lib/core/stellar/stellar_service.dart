@@ -77,7 +77,7 @@ class StellarService {
     required String accountId,
     String? cursor,
     int limit = 15,
-    Order order = Order.DESC,
+    RequestBuilderOrder order = RequestBuilderOrder.DESC,
   }) async {
     final builder = _sdk.payments.forAccount(accountId).order(order).limit(limit);
     if (cursor != null) {

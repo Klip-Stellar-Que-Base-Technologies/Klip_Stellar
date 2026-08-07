@@ -38,25 +38,29 @@ class KlipTransaction {
     String? transactionMemo,
     int? maxFee,
   }) {
-    final isDebit = operation.from == accountId || operation.sourceAccount == accountId;
-    final counterparty = isDebit ? (operation.to ?? 'Unknown') : (operation.from ?? 'Unknown');
+    final fromAddress = operation.from;
+    final toAddress = operation.to;
+
+    final isDebit = fromAddress == accountId || operation.sourceAccount == accountId;
+    final counterparty = isDebit ? toAddress : fromAddress;
     final assetCode = operation.assetType == 'native'
         ? 'XLM'
         : (operation.assetCode ?? 'XLM');
 
-    final createdAt = operation.createdAt != null
-        ? DateTime.tryParse(operation.createdAt!) ?? DateTime.now()
-        : DateTime.now();
+    final createdAtStr = operation.createdAt;
+    final createdAt = DateTime.tryParse(createdAtStr) ?? DateTime.now();
 
     final feeXlm = maxFee != null
         ? '${(maxFee / 10000000.0).toStringAsFixed(5)} XLM'
         : '0.00001 XLM';
 
+    final txHash = operation.transactionHash ?? operation.id.toString();
+
     return KlipTransaction(
       id: operation.id.toString(),
-      hash: operation.transactionHash ?? operation.id.toString(),
+      hash: txHash,
       type: isDebit ? KlipTransactionType.debit : KlipTransactionType.credit,
-      amount: operation.amount ?? '0.00',
+      amount: operation.amount,
       asset: assetCode,
       counterparty: counterparty,
       memo: transactionMemo,
