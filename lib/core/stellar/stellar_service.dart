@@ -72,6 +72,20 @@ class StellarService {
     return _sdk.submitTransaction(tx);
   }
 
+  /// Fetch payment history operations for [accountId] with optional cursor.
+  Future<Page<OperationResponse>> getPayments({
+    required String accountId,
+    String? cursor,
+    int limit = 15,
+    Order order = Order.DESC,
+  }) async {
+    final builder = _sdk.payments.forAccount(accountId).order(order).limit(limit);
+    if (cursor != null) {
+      builder.cursor(cursor);
+    }
+    return builder.execute();
+  }
+
   // ── Testnet helpers ──────────────────────────────────────────────────────────
 
   /// Fund an account on testnet via Friendbot.
