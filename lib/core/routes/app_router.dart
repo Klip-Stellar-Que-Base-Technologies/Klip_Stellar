@@ -1,10 +1,12 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:klip/core/navigation/app_navigation.dart';
+import 'package:klip/core/services/auth_service.dart';
 import 'package:klip/core/services/onboarding_service.dart';
 import 'package:klip/features/home/presentation/home_view.dart';
 import 'package:klip/features/home/presentation/import_wallet_view.dart';
 import 'package:klip/features/onboarding/presentation/onboarding_root_view.dart';
+import 'package:klip/features/profile/auth/presentation/lock_screen.dart';
 import 'package:klip/features/profile/auth/presentation/login_view.dart';
 import 'package:klip/features/profile/auth/presentation/signup_view.dart';
 import 'package:klip/features/saving/presentation/savings_view.dart';
@@ -31,6 +33,7 @@ class AppRoutes {
   static const String transactionSuccessful = '/transaction/success';
   static const String transactionWalletSelection = '/transaction/wallet_selection';
 
+  static const String lockScreen = '/lock_screen';
   static const String importWallet = '/import_wallet';
 }
 
@@ -45,6 +48,13 @@ class AppRouter {
       redirect: (context, state) {
         final onboardingDone =
             container.read(onboardingCompleteProvider);
+        final isLocked = container.read(appLockNotifierProvider);
+        final onLockScreen = state.matchedLocation == AppRoutes.lockScreen;
+
+        if (isLocked && onboardingDone && !onLockScreen) {
+          return AppRoutes.lockScreen;
+        }
+
         final onOnboarding =
             state.matchedLocation.startsWith(AppRoutes.onboardingRoot);
 
@@ -124,6 +134,10 @@ class AppRouter {
         GoRoute(
           path: AppRoutes.importWallet,
           builder: (context, state) => const ImportWalletView(),
+        ),
+        GoRoute(
+          path: AppRoutes.lockScreen,
+          builder: (context, state) => const LockScreen(),
         ),
       ],
     );
